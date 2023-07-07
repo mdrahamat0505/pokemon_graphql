@@ -1,4 +1,3 @@
-import 'package:artemis/client.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql/client.dart';
 import '../config/config.dart';
@@ -10,9 +9,8 @@ import 'package:get/get.dart';
 import '../widgets/loading_animation.dart';
 
 class HomeScreen extends StatefulWidget {
-  final GraphQLClient artemisClient;
 
-  const HomeScreen({Key? key, required this.artemisClient}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

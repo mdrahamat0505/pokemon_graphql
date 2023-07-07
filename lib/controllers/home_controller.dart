@@ -1,4 +1,3 @@
-import 'package:artemis/client.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
@@ -32,14 +31,14 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<PokemonsQueryGraphql> fetchArtemisClient(ArtemisClient client) async {
-    final pokemonsQuery = PokemonsQuery(variables: PokemonsArguments(quantity: 15));
-    final result = await client.execute(pokemonsQuery);
-    if (result.hasErrors) {
-      throw Exception(result.errors);
-    }
-    return result.data!;
-  }
+  // Future<PokemonsQueryGraphql> fetchArtemisClient(ArtemisClient client) async {
+  //   final pokemonsQuery = PokemonsQuery(variables: PokemonsArguments(quantity: 15));
+  //   final result = await client.execute(pokemonsQuery);
+  //   if (result.hasErrors) {
+  //     throw Exception(result.errors);
+  //   }
+  //   return result.data!;
+  // }
 
   Future<PokemonsQueryGraphql> fetchGraphQLClient({GraphQLClient? client}) async {
     showSpinner.value = true;
