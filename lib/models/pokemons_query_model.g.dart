@@ -7,9 +7,9 @@ part of 'pokemons_query_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FetchPokemons$Query$Pokemon _$FetchPokemons$Query$PokemonFromJson(
+PokemonsQueryModel _$PokemonsQueryModelFromJson(
         Map<String, dynamic> json) =>
-    FetchPokemons$Query$Pokemon()
+    PokemonsQueryModel()
       ..id = json['id'] as String
       ..name = json['name'] as String?
       ..image = json['image'] as String?
@@ -19,8 +19,8 @@ FetchPokemons$Query$Pokemon _$FetchPokemons$Query$PokemonFromJson(
       ..maxCP = json['maxCP'] as int?
       ..maxHP = json['maxHP'] as int?;
 
-Map<String, dynamic> _$FetchPokemons$Query$PokemonToJson(
-        FetchPokemons$Query$Pokemon instance) =>
+Map<String, dynamic> _$PokemonsQueryModelToJson(
+        PokemonsQueryModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -31,28 +31,28 @@ Map<String, dynamic> _$FetchPokemons$Query$PokemonToJson(
       'maxHP': instance.maxHP,
     };
 
-FetchPokemons$Query _$FetchPokemons$QueryFromJson(Map<String, dynamic> json) =>
-    FetchPokemons$Query()
+PokemonsQueryGraphql _$FetchPokemons$QueryFromJson(Map<String, dynamic> json) =>
+    PokemonsQueryGraphql()
       ..pokemons = (json['pokemons'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
-              : FetchPokemons$Query$Pokemon.fromJson(e as Map<String, dynamic>))
+              : PokemonsQueryModel.fromJson(e as Map<String, dynamic>))
           .toList();
 
 Map<String, dynamic> _$FetchPokemons$QueryToJson(
-        FetchPokemons$Query instance) =>
+        PokemonsQueryGraphql instance) =>
     <String, dynamic>{
       'pokemons': instance.pokemons?.map((e) => e?.toJson()).toList(),
     };
 
-FetchPokemonsArguments _$FetchPokemonsArgumentsFromJson(
+PokemonsArguments _$FetchPokemonsArgumentsFromJson(
         Map<String, dynamic> json) =>
-    FetchPokemonsArguments(
+    PokemonsArguments(
       quantity: json['quantity'] as int,
     );
 
 Map<String, dynamic> _$FetchPokemonsArgumentsToJson(
-        FetchPokemonsArguments instance) =>
+        PokemonsArguments instance) =>
     <String, dynamic>{
       'quantity': instance.quantity,
     };

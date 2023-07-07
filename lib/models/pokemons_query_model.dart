@@ -9,37 +9,31 @@ part 'pokemons_query_model.g.dart';
 
 
 @JsonSerializable(explicitToJson: true)
-class FetchPokemons$Query$Pokemon extends JsonSerializable with EquatableMixin {
-  FetchPokemons$Query$Pokemon();
-
-  factory FetchPokemons$Query$Pokemon.fromJson(Map<String, dynamic> json) => _$FetchPokemons$Query$PokemonFromJson(json);
+class PokemonsQueryModel extends JsonSerializable with EquatableMixin {
 
   late String id;
-
   String? name;
-
   String? image;
-
   String? classification;
-
   List<String?>? types;
-
   int? maxCP;
-
   int? maxHP;
+
+  PokemonsQueryModel();
+  factory PokemonsQueryModel.fromJson(Map<String, dynamic> json) => _$PokemonsQueryModelFromJson(json);
 
   @override
   List<Object?> get props => [id, name, image, classification, types, maxCP, maxHP];
-  Map<String, dynamic> toJson() => _$FetchPokemons$Query$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$PokemonsQueryModelToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class FetchPokemons$Query extends JsonSerializable with EquatableMixin {
-  FetchPokemons$Query();
+class PokemonsQueryGraphql extends JsonSerializable with EquatableMixin {
+  PokemonsQueryGraphql();
 
-  factory FetchPokemons$Query.fromJson(Map<String, dynamic> json) => _$FetchPokemons$QueryFromJson(json);
+  factory PokemonsQueryGraphql.fromJson(Map<String, dynamic> json) => _$FetchPokemons$QueryFromJson(json);
 
-  List<FetchPokemons$Query$Pokemon?>? pokemons;
+  List<PokemonsQueryModel?>? pokemons;
 
   @override
   List<Object?> get props => [pokemons];
@@ -47,11 +41,11 @@ class FetchPokemons$Query extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class FetchPokemonsArguments extends JsonSerializable with EquatableMixin {
-  FetchPokemonsArguments({required this.quantity});
+class PokemonsArguments extends JsonSerializable with EquatableMixin {
+  PokemonsArguments({required this.quantity});
 
   @override
-  factory FetchPokemonsArguments.fromJson(Map<String, dynamic> json) => _$FetchPokemonsArgumentsFromJson(json);
+  factory PokemonsArguments.fromJson(Map<String, dynamic> json) => _$FetchPokemonsArgumentsFromJson(json);
 
   late int quantity;
 
@@ -61,7 +55,7 @@ class FetchPokemonsArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$FetchPokemonsArgumentsToJson(this);
 }
 
-final FETCH_POKEMONS_QUERY_DOCUMENT = DocumentNode(definitions: [
+const FETCH_POKEMONS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'fetch_pokemons'),
@@ -91,8 +85,8 @@ final FETCH_POKEMONS_QUERY_DOCUMENT = DocumentNode(definitions: [
       ]))
 ]);
 
-class FetchPokemonsQuery extends graph.GraphQLQuery<FetchPokemons$Query, FetchPokemonsArguments> {
-  FetchPokemonsQuery({required this.variables});
+class PokemonsQuery extends graph.GraphQLQuery<PokemonsQueryGraphql, PokemonsArguments> {
+  PokemonsQuery({required this.variables});
 
   @override
   final DocumentNode document = FETCH_POKEMONS_QUERY_DOCUMENT;
@@ -101,10 +95,10 @@ class FetchPokemonsQuery extends graph.GraphQLQuery<FetchPokemons$Query, FetchPo
   final String operationName = 'fetch_pokemons';
 
   @override
-  final FetchPokemonsArguments variables;
+  final PokemonsArguments variables;
 
   @override
   List<Object?> get props => [document, operationName, variables];
   @override
-  FetchPokemons$Query parse(Map<String, dynamic> json) => FetchPokemons$Query.fromJson(json);
+  PokemonsQueryGraphql parse(Map<String, dynamic> json) => PokemonsQueryGraphql.fromJson(json);
 }

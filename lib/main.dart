@@ -2,6 +2,7 @@ import 'package:artemis/client.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_graphql/views/home_screen.dart';
 import 'package:graphql/client.dart';
+import 'package:get/get.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,13 +20,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final artemisClient = ArtemisClient('https://graphql-pokemon2.vercel.app/');
-    return MaterialApp(
-      title: 'Flutter Demo',
+    final graphQLClient = GraphQLClient(
+        link: HttpLink('https://graphql-pokemon2.vercel.app/'),
+        cache: GraphQLCache());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Pokedex',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  HomeScreen(artemisClient: artemisClient),
+      home:  HomeScreen(artemisClient: graphQLClient),
     );
   }
 }
