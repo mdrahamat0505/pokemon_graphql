@@ -7,6 +7,4 @@ class Config {
   final graphQLClient = GraphQLClient(
       link: HttpLink('https://graphql-pokemon2.vercel.app/'),
       cache: GraphQLCache());
-  // static String baseUrl = "https://pokeapi.co/api/v2/";
-  // static String endPointPokemon = "${baseUrl}/pokemon";
 }
