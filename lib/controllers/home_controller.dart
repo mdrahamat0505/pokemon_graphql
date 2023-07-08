@@ -4,7 +4,6 @@ import 'package:graphql/client.dart';
 
 import '../config/config.dart';
 import '../models/pokemons_query_model.dart';
-import '../services/internet_connection.dart';
 
 class HomeController extends GetxController {
   // final email = RxString('');
@@ -28,7 +27,7 @@ class HomeController extends GetxController {
       //When scroll reach end then fetch new pokemon again
       if (showSpinner == false) {
         if (pokemons.value.pokemons != null && pokemons.value.pokemons!.length <= page) {
-          page = page + 10;
+          page = page + 5;
           // showSpinner(true);
           fetchGraphQLClient();
         }
@@ -45,7 +44,7 @@ class HomeController extends GetxController {
   //   return result.data!;
   // }
 
-  Future<PokemonsQueryGraphql> fetchGraphQLClient() async {
+void fetchGraphQLClient() async {
     showSpinner.value = true;
       final pokemonsQuery = PokemonsQuery(variables: PokemonsArguments(quantity: page));
       final queryOptions = QueryOptions(
@@ -58,6 +57,9 @@ class HomeController extends GetxController {
         throw result.exception!;
       }
       showSpinner.value = false;
-      return pokemons.value = PokemonsQueryGraphql.fromJson(result.data!);
+    pokemons.value = PokemonsQueryGraphql.fromJson(result.data!);
+    update(['aVeryUniqueID']);
+    update();
+
   }
 }

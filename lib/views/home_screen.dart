@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graphql/client.dart';
 import '../components/sideDrawer.dart';
-import '../config/config.dart';
 import '../controllers/home_controller.dart';
-import '../models/pokemons_query_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -22,9 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    homeC.fetchGraphQLClient();
     homeC.scrollController = ScrollController();
     homeC.scrollController.addListener(homeC.scrollListener);
+    homeC.fetchGraphQLClient();
     //initialize super state
     super.initState();
   }
@@ -38,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: sideDrawer(),
       body: GetBuilder<HomeController>(
+        id: 'aVeryUniqueID', // here
         init: HomeController(),
         builder: (logic) {
           //    final pokedexProv = Provider.of<PokedexProvider>(context);
@@ -50,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             () {
               return SingleChildScrollView(
                 // physics: const NeverScrollableScrollPhysics(),
-                controller: homeC.scrollController,
+                controller: logic.scrollController,
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: Column(
@@ -69,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           : const Center(
                               child: LoadingAnimation(),
                             ),
-
                     ],
                   ),
                 ),
@@ -82,32 +79,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class PokedexList extends StatelessWidget {
+class PokedexList extends StatefulWidget {
   final dynamic logic;
 
   const PokedexList({Key? key, required this.logic}) : super(key: key);
 
   @override
+  State<PokedexList> createState() => _PokedexListState();
+}
+
+class _PokedexListState extends State<PokedexList> {
+  @override
   Widget build(BuildContext context) {
-    final homeC = HomeController();
-    if(logic.pokemons.value.pokemons != null && logic.pokemons.value.pokemons!.length <= logic.page){
-      logic.fetchGraphQLClient();
+    if (widget.logic.pokemons.value.pokemons != null && widget.logic.pokemons.value.pokemons!.length <= widget.logic.page) {
+      widget.logic.fetchGraphQLClient();
     }
 
     return Obx(
-      () => (logic.pokemons.value.pokemons == null && logic.pokemons.value.pokemons!.length <= logic.page)
+      () => (widget.logic.pokemons.value.pokemons == null && widget.logic.pokemons.value.pokemons!.length <= widget.logic.page)
           ? const Center(
               child: LoadingAnimation(),
             )
           : Column(
               children: <Widget>[
                 ListView.builder(
-                  controller: homeC.scrollController,
-                  itemCount: logic.pokemons.value.pokemons.length ?? 0,
+                  itemCount: widget.logic.pokemons.value.pokemons.length ?? 0,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, int index) {
-                    var data = logic.pokemons.value.pokemons[index];
+                    var data = widget.logic.pokemons.value.pokemons[index];
                     return Column(
                       children: <Widget>[
                         InkWell(
@@ -236,7 +236,7 @@ class PokedexList extends StatelessWidget {
                     );
                   },
                 ),
-                homeC.showSpinner == true
+                widget.logic.showSpinner == true
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
