@@ -23,9 +23,10 @@ class HomeController extends GetxController {
 
   //Scroll detection when scroll reached bottom
   scrollListener() {
+    showSpinner.value = false;
     if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
       //When scroll reach end then fetch new pokemon again
-      if (showSpinner == false) {
+      if (showSpinner.value == false) {
         if (pokemons.value.pokemons != null && pokemons.value.pokemons!.length <= page) {
           page = page + 5;
           // showSpinner(true);
@@ -56,8 +57,9 @@ void fetchGraphQLClient() async {
       if (result.hasException) {
         throw result.exception!;
       }
-      showSpinner.value = false;
+    showSpinner.value = false;
     pokemons.value = PokemonsQueryGraphql.fromJson(result.data!);
+    showSpinner.value = false;
     update(['aVeryUniqueID']);
     update();
 
