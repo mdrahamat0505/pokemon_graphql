@@ -68,7 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? PokedexList(logic: logic)
                           : const Center(
                               child: LoadingAnimation(),
-                            )
+                            ),
+
                     ],
                   ),
                 ),
@@ -89,6 +90,10 @@ class PokedexList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeC = HomeController();
+    if(logic.pokemons.value.pokemons != null && logic.pokemons.value.pokemons!.length <= logic.page){
+      logic.fetchGraphQLClient();
+    }
+
     return Obx(
       () => (logic.pokemons.value.pokemons == null && logic.pokemons.value.pokemons!.length <= logic.page)
           ? const Center(

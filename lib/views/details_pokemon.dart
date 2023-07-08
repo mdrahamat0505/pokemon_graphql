@@ -43,8 +43,8 @@ class _DetailsPokemonState extends State<DetailsPokemon> {
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Container(
-                          width: 85,
-                          height: 85,
+                          width: 100,
+                          height: 100,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(200),
                               color: Colors.blue,

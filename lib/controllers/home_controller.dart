@@ -13,7 +13,7 @@ class HomeController extends GetxController {
   final pokemons = Rx(PokemonsQueryGraphql());
   final pokemonList = RxList<PokemonsQueryGraphql>();
   ScrollController scrollController = ScrollController();
-  var page = 20;
+  var page = 25;
 
   @override
   void onInit() {
@@ -46,9 +46,7 @@ class HomeController extends GetxController {
   // }
 
   Future<PokemonsQueryGraphql> fetchGraphQLClient() async {
-
     showSpinner.value = true;
-    // if (connectivityResult) {
       final pokemonsQuery = PokemonsQuery(variables: PokemonsArguments(quantity: page));
       final queryOptions = QueryOptions(
         document: pokemonsQuery.document,
@@ -61,17 +59,5 @@ class HomeController extends GetxController {
       }
       showSpinner.value = false;
       return pokemons.value = PokemonsQueryGraphql.fromJson(result.data!);
-      // return pokemons.value=pok;
-    // } else {
-    //   Get.snackbar(
-    //     'Attention!!',
-    //     'Please check your internet connection.',
-    //     colorText: Colors.red,
-    //     snackPosition: SnackPosition.BOTTOM,
-    //     backgroundColor: Colors.white,
-    //   );
-    //   showSpinner.value = false;
-    // }
-    return PokemonsQueryGraphql();
   }
 }
