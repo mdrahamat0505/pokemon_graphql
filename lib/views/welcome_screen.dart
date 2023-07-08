@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../services/internet_connection.dart';
 import 'home_screen.dart';
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -14,8 +15,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 1),() {
-      Get.offAll(() => const HomeScreen());
+    Future.delayed(const Duration(seconds: 1),() async {
+      final connectivityResult = await InternetConnection.isConnectedToInternet();
+      if (connectivityResult) {
+        Get.offAll(() => const HomeScreen());
+      } else {
+        Get.snackbar(
+          'Attention!!',
+          'Please check your internet connection.',
+          colorText: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+        );
+      }
+
     });
     super.initState();
   }
@@ -46,8 +59,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               padding: const EdgeInsets.symmetric(vertical: 10.0),
              child: Image.asset(
                "images/bullbasaur.png",
-                height: 50,
-                width: 50,
+                height: 80,
+                width: 80,
               ),
             ),
           ],
