@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../widgets/loading_animation.dart';
+import 'details_pokemon.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    homeC.fetchGraphQLClient(client: Config().graphQLClient);
+    homeC.fetchGraphQLClient();
     homeC.scrollController = ScrollController();
     homeC.scrollController.addListener(homeC.scrollListener);
     //initialize super state
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //    final pokedexProv = Provider.of<PokedexProvider>(context);
           if (logic.pokemons.value.pokemons == null) {
             //First initializing apps load 10 data
-            logic.fetchGraphQLClient(client: Config().graphQLClient);
+            logic.fetchGraphQLClient();
           }
 
           return Obx(() {
@@ -139,118 +140,123 @@ class PokedexList extends StatelessWidget {
             var data = logic.pokemons.value.pokemons[index];
             return Column(
               children: <Widget>[
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(11),
+                InkWell(
+            onTap:(){
+              Get.to(() =>  DetailsPokemon(pokemon: data,));
+            },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(11),
 
-                        //Adding shadow to container
-                        boxShadow: const [BoxShadow(blurRadius: 15, color: Colors.black26, offset: Offset(5.0, 5.0))]),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(200),
-                                    color: Colors.blue,
-                                    boxShadow: const [
-                                      BoxShadow(blurRadius: 15, color: Colors.black26, offset: Offset(5.0, 5.0))
-                                    ],
-                                    gradient: LinearGradient(
-                                      // Where the linear gradient begins and ends
-                                      begin: Alignment.topRight,
-                                      end: Alignment.bottomLeft,
-                                      // Add one stop for each color. Stops should increase from 0 to 1
-                                      stops: const [0.1, 0.5, 0.7, 0.9],
-                                      colors: [
-                                        // Colors are easy thanks to Flutter's Colors class.
-                                        Colors.blue[700] as Color,
-                                        Colors.blue[500] as Color,
-                                        Colors.blue[400] as Color,
-                                        Colors.blue[200] as Color,
+                          //Adding shadow to container
+                          boxShadow: const [BoxShadow(blurRadius: 15, color: Colors.black26, offset: Offset(5.0, 5.0))]),
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: 120,
+                            height: 120,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Container(
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(200),
+                                      color: Colors.blue,
+                                      boxShadow: const [
+                                        BoxShadow(blurRadius: 15, color: Colors.black26, offset: Offset(5.0, 5.0))
                                       ],
-                                    )),
-                                child: Image.network(
-                                  data.image,
-                                  fit: BoxFit.cover,
-                                )),
+                                      gradient: LinearGradient(
+                                        // Where the linear gradient begins and ends
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+                                        // Add one stop for each color. Stops should increase from 0 to 1
+                                        stops: const [0.1, 0.5, 0.7, 0.9],
+                                        colors: [
+                                          // Colors are easy thanks to Flutter's Colors class.
+                                          Colors.blue[700] as Color,
+                                          Colors.blue[500] as Color,
+                                          Colors.blue[400] as Color,
+                                          Colors.blue[200] as Color,
+                                        ],
+                                      )),
+                                  child: Image.network(
+                                    data.image,
+                                    fit: BoxFit.cover,
+                                  )),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
+                          const SizedBox(
+                            width: 5,
+                          ),
 
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              data.name,
-                              style: const TextStyle(fontSize: 20, color: Colors.black87, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              data.classification,
-                              style: const TextStyle(fontSize: 15, color: Colors.black87, fontWeight: FontWeight.normal),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    SvgPicture.asset(
-                                      "images/icon_weight.svg",
-                                      width: 20,
-                                      height: 20,
-                                      color: Colors.black54,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      data.maxCP.toString(),
-                                      style: const TextStyle(fontSize: 15, color: Colors.black54),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    SvgPicture.asset(
-                                      "images/icon_height.svg",
-                                      width: 20,
-                                      height: 20,
-                                      color: Colors.black54,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      data.maxHP.toString(),
-                                      style: const TextStyle(fontSize: 15, color: Colors.black54),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            )
-                          ],
-                        ),
-                      ],
-                    )),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                data.name,
+                                style: const TextStyle(fontSize: 20, color: Colors.black87, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                data.classification,
+                                style: const TextStyle(fontSize: 15, color: Colors.black87, fontWeight: FontWeight.normal),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      SvgPicture.asset(
+                                        "images/icon_weight.svg",
+                                        width: 20,
+                                        height: 20,
+                                        color: Colors.black54,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        data.maxCP.toString(),
+                                        style: const TextStyle(fontSize: 15, color: Colors.black54),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      SvgPicture.asset(
+                                        "images/icon_height.svg",
+                                        width: 20,
+                                        height: 20,
+                                        color: Colors.black54,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        data.maxHP.toString(),
+                                        style: const TextStyle(fontSize: 15, color: Colors.black54),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
+                ),
                 const SizedBox(
                   height: 20,
                 )

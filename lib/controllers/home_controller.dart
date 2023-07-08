@@ -15,8 +15,8 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    scrollController =  ScrollController()..addListener(scrollListener);
-    fetchGraphQLClient(client: Config().graphQLClient);
+    scrollController = ScrollController()..addListener(scrollListener);
+    fetchGraphQLClient();
     super.onInit();
   }
 
@@ -25,8 +25,8 @@ class HomeController extends GetxController {
     if (scrollController.offset >= scrollController.position.maxScrollExtent && scrollController.position.outOfRange) {
       //When scroll reach end then fetch new pokemon again
       if (showSpinner == false) {
-       // showSpinner(true);
-        fetchGraphQLClient(client: Config().graphQLClient);
+        // showSpinner(true);
+        fetchGraphQLClient();
       }
     }
   }
@@ -40,17 +40,20 @@ class HomeController extends GetxController {
   //   return result.data!;
   // }
 
-  Future<PokemonsQueryGraphql> fetchGraphQLClient({GraphQLClient? client}) async {
+  Future<PokemonsQueryGraphql> fetchGraphQLClient() async {
     showSpinner.value = true;
     final pokemonsQuery = PokemonsQuery(variables: PokemonsArguments(quantity: 20));
     final queryOptions = QueryOptions(
-        document: pokemonsQuery.document, variables: pokemonsQuery.variables.toJson(), fetchPolicy: FetchPolicy.cacheAndNetwork,);
-    final result = await client!.query(queryOptions);
+      document: pokemonsQuery.document,
+      variables: pokemonsQuery.variables.toJson(),
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
+    );
+    final result = await Config().graphQLClient.query(queryOptions);
     if (result.hasException) {
       throw result.exception!;
     }
     showSpinner.value = false;
-   return pokemons.value =  PokemonsQueryGraphql.fromJson(result.data!);
-   // return pokemons.value=pok;
+    return pokemons.value = PokemonsQueryGraphql.fromJson(result.data!);
+    // return pokemons.value=pok;
   }
 }
